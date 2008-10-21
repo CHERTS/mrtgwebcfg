@@ -1,0 +1,180 @@
+Инструкция по установке системы MRTGWebCfg
+------------------------------------------
+
+MRTG - это Multi Router Traffic Grapher, сервис, позволяющий посредством протокола SNMP получать с нескольких
+       устройств определённую информацию, и отображать её в окне вашего браузера в виде соответствующих графиков. 
+
+Например: График загруженности канала (входящий трафик, исходящий, максимальный, средний) с шагом в минуты,
+	  часы, дни и за год. 
+
+MRTGWebCfg это группа PHP скриптов предназначенных для:
+
+- Управления конфигурационным файлом MRTG через Web-интерфейс.
+- Анализ RRD файлов и построение соответствующих графиков.
+- Просмотр графической информации через Web-интерфейс.
+
+Автор:		Григорьев Михаил
+E-Mail: 	neo@chel.skbkontur.ru
+ICQ: 		161867489
+WWW:		http://www.novell.chel.ru
+Forum:		http://www.novell.chel.ru/forum
+
+Постановщик задачи: Ширшов Павел
+-------------------
+
+Лицензия: GNU GPL
+---------
+
+Системные требования:
+---------------------
+
+Операционная система:			Linux, FreeBSD или другая *nix подобная ОС.
+База данных:				PostgreSQL 7.x/8.x или MySQL 4.x/5.x
+Web-сервер:				Apache 2.x.x
+Дополнительные пакеты:
+ - PHP4 или PHP5
+ - PHP-GD
+ - PHP-PGSQL
+ - PHP-RRDTOOL (http://oss.oetiker.ch/rrdtool/pub/contrib/)
+ - RRDTOOL
+ - MRTG
+ - NET-SNMP
+
+ 
+Установка системы c нуля на FreeBSD:
+------------------------------------
+
+1.	Устанавливаем и настраиваем перечисленные выше пакеты
+	Обратите внимание на настройку пакета net-snmp
+	Конфигурационный файл net-snmp моей системы приведён в папке /snmp
+
+2.	Проверьте, запущен ли net-snmp:
+	ps -auxw | grep snmp
+	Результат команды:
+	9599  ??  S      0:03.91 /usr/local/sbin/snmpd -p /var/run/snmpd.pid
+	9621  ??  Ss     0:00.43 /usr/local/sbin/snmptrapd -p /var/run/snmptrapd.pid
+
+3.	Скопируйте папку mrtgwebcfg в корневую директорию вашего Web-сервера
+
+4.	Выставите необходимые права на каталог c PHP скриптами MRTGWebCfg:
+	chown -R www:wheel /Корневая_директория_вашего_Web-сервера/mrtgwebcfg/images/
+	chmod -R 775 /Корневая_директория_вашего_Web-сервера/mrtgwebcfg/images-err/
+
+5.	Создайте каталог для резервных копий файлов MRTG:
+	mkdir /usr/local/etc/mrtg/backup
+	mkdir /usr/local/etc/mrtg/backup-err
+
+6.	Выставите необходимые права на каталог MRTG:
+	chown -R www:wheel /usr/local/etc/mrtg
+	chmod -R 775 /usr/local/etc/mrtg
+
+7.	Если вы используете в качестве БД PostgreSQL, то сделайте следующее:
+
+7.1	Создайте базу в PostgreSQL с именем mrtg и пользователя mrtg с нужным вам паролем.
+	Пример:
+	# psql -U pgsql template1
+	template1=# create user mrtg with createdb password '12345';
+	template1=# \c - mrtg
+	template1=# create database mrtg with encoding='WIN' template template0;
+	template1=# \q
+
+7.2	Выполните скрипты /mrtgwebcfg/sql/postgres-table.sql и /mrtgwebcfg/sql/postgres-data.sql
+	Пример:
+	# psql -a mrtg mrtg < postgres-table.sql
+	# psql -a mrtg mrtg < postgres-data.sql
+	# psql -U pgsql template1
+	template1=# alter user mrtg with nocreatedb;
+	template1=# \q
+
+7.3	Перейдите к шагу 9 настоящей инструкции.
+
+8. 	Если вы используете в качестве БД MySQL, то сделайте следующее:
+
+8.1	Создайте базу в MySQL с именем mrtg и пользователя mrtg с нужным вам паролем.
+	Пример:
+	# mysql -u root -p
+	mysql> create database mrtg;
+	mysql> connect mrtg;
+	mysql> grant all on mrtg.* to mrtg@localhost identified by '12345';
+	mysql> flush privileges;
+	mysql> \q
+
+8.2	Выполните скрипты /mrtgwebcfg/sql/mysql-table.sql и /mrtgwebcfg/sql/mysql-data.sql
+	Пример:
+	mysql -u root -p 
+	mysql> \. /path/to/mysql-table.sql
+	mysql> \. /path/to/mysql-data.sql
+	mysql> \q
+
+8.3	Перейдите к шагу 9 настоящей инструкции.
+
+9. 	Зайдите через Web-браузер на страничку: http://server/mrtgwebcfg/
+	Если вы всё правильно настроили, то у вас должна отображится главная страничка MRTGViewer
+	Если у вас появилась страничка с надписью: "Проверка наличия необходимых модулей", то скорее
+	всего настройки вышей системы не соответствуют необходимым для успешной работы MRTGWebCfg.
+	Вам необходимо устранить описанные Ошибки и только тогда система MRTGWebCfg успешно запустится.
+
+10.	В Web-браузере зайдите на "Страницу управления" -> "Редактирование Глобальных параметров MRTG"
+	и измените параметр WorkDir и ImageDir в секциях MRTG и MRTG Errors.
+	Параметр WorkDir задаёт где MRTG будет хранить RRD файлы.
+	Параметр ImageDir задаёт куда MRTGWebCfg будет генерировать файлы картинок.
+
+	В секции MRTG - WorkDir в нашем случае должен равнятся:
+	/Корневая_директория_вашего_Web-сервера/mrtgwebcfg/rrd
+
+	В секции MRTG Errors - WorkDir в нашем случае должен равнятся:
+	/Корневая_директория_вашего_Web-сервера/mrtgwebcfg/rrd-err
+
+	В секции MRTG - ImageDir в нашем случае должен равнятся:
+	/Корневая_директория_вашего_Web-сервера/mrtgwebcfg/images
+
+	В секции MRTG Errors - ImageDir в нашем случае должен равнятся:
+	/Корневая_директория_вашего_Web-сервера/mrtgwebcfg/images-err
+
+11.	Если вы прошли успешно пункт 12, то в web-интерфейсе перейдите на "Cтраницу управления" и нажмите
+	кнопку "Пересобрать файл конфигурации"
+ 
+	При нажатии на эту кнопку происходит следующее:
+	а) Из базы данных "собирается" файл конфигурации MRTG (файлы mrtg.cfg и mrtg.error.cfg)
+	   в директорию /tmp
+	б) Старый файл MRTG (mrtg.cfg и mrtg.error.cfg) из /usr/local/etc/mrtg копируется
+	   в /usr/local/etc/mrtg/backup и /usr/local/etc/mrtg/backup-err
+	в) Файлы из /tmp переносятся в /usr/local/etc/mrtg
+
+12.	Проверьте факт наличия вновь сгенерированных файлов:
+	ls /usr/local/etc/mrtg/ | grep mrtg
+	Результат:
+	mrtg.cfg
+	mrtg.error.cfg
+
+13.	Отредактируйте файл /etc/crontab для автоматического запуска mrtg каждые 5 минут:
+
+	Пример файла /etc/crontab
+
+	1-59/5  *       *       *       *       root   /usr/local/bin/mrtg /usr/local/etc/mrtg/mrtg.cfg --logging /var/log/mrtg.log
+	1-59/5  *       *       *       *       root   /usr/local/bin/mrtg /usr/local/etc/mrtg/mrtg.error.cfg --logging /var/log/mrtg-err.log
+
+	Не забудьте создать файлы /var/log/mrtg.log и /var/log/mrtg-err.log
+	touch /var/log/mrtg.log
+	touch /var/log/mrtg-err.log
+
+	Не забудте перезапустить демон cron
+	killall -HUP cron
+
+14.	Через некоторое время на главной странице MRTGViewer (http://server/mrtgwebcfg/) должны появиться
+	графики.
+
+На этом установка системы MRTGWebCfg завершена.
+
+Для более успешной работы системы рекомендуем вам прочитать "Инструкцию по работе с MRTGWebCfg".
+В ней детально описан принцип работы системы, а так же пошаговые инструкции по заведению записей хостов,
+групп и шаблонов в системе.
+
+По всем возникшим вопросам, пожеланиям и т.д. обращайтесь к автору
+
+Автор:		Григорьев Михаил
+E-Mail: 	neo@chel.skbkontur.ru
+ICQ: 		161867489
+WWW:		http://www.novell.chel.ru
+Forum:		http://www.novell.chel.ru/forum
+

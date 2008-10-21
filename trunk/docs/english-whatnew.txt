@@ -1,0 +1,29 @@
+That new in version 2.20:
+-
+
+That new in version 2.19:
+- Now it can determine whether new version of MRTGWebCfg was released.
+- 3 global MRTG parameters added (RunAsDaemon, Interval, NoDetach)
+- $Column_Set_Standart was removed from config.php
+- Admin scripts are moved to "admin" subfolder.
+- Database supports detection in php added.
+
+That new in version 2.18:
+- MySQL database can be used as storage
+- Template add error was fixed on the "Template management - GUI" page
+
+That new in version 2.17:
+- The French language added (Author: Aymeric MARCHAL)
+
+That new in version 2.16:
+- Minor bugfixes
+- English translation is completed
+
+That new in version 2.15:
+- Incoming traffic bugs exploration fixed
+- Experimental utility SNMP Tools added
+- Small bugs in interface fixed
+
+That new in version 2.14:
+- Image scaling fixed in rrd file analysis
+- New configuration feature ($Show_Community - to show or not to show SNMP password on control panel) 
