@@ -14,7 +14,7 @@ MRTGWebCfg это группа PHP скриптов предназначенных для:
 - Просмотр графической информации через Web-интерфейс.
 
 Автор:		Григорьев Михаил
-E-Mail: 	neo@chel.skbkontur.ru
+E-Mail: 	sleuthhound@gmail.com
 ICQ: 		161867489
 WWW:		http://www.novell.chel.ru
 Forum:		http://www.novell.chel.ru/forum
@@ -173,7 +173,7 @@ Web-сервер:				Apache 2.x.x
 По всем возникшим вопросам, пожеланиям и т.д. обращайтесь к автору
 
 Автор:		Григорьев Михаил
-E-Mail: 	neo@chel.skbkontur.ru
+E-Mail: 	sleuthhound@gmail.com
 ICQ: 		161867489
 WWW:		http://www.novell.chel.ru
 Forum:		http://www.novell.chel.ru/forum

@@ -12,7 +12,7 @@ MRTGWebCfg is a tool written in PHP which does:
 - Any MRTG graphic output.
 
 Developer: Michael Grigorjev
-E-Mail: neo@chel.skbkontur.ru
+E-Mail: sleuthhound@gmail.com
 ICQ: 161867489
 WWW: http://novell.chel.ru
 Forum: http://novell.chel.ru/forum
@@ -163,7 +163,7 @@ We also recommend to read further documentation "Using MRTGWebCfg". It contains 
 Do not hesitate to contact developer in case of any question
 
 Developer: Michael Grigorjev
-E-Mail: neo@chel.skbkontur.ru
+E-Mail: sleuthhound@gmail.com
 ICQ: 161867489
 WWW: http://novell.chel.ru
 Forum: http://novell.chel.ru/forum
