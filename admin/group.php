@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('IN_ADMIN', true);
 
@@ -11,22 +11,23 @@ require "./../lang/$MRTGLang.php";
 if (Check_Access() != "Allow") MRTGErrors(6);
 
 if($SQL_Type == "mysql") {
-	$db = mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
-	$sdb = mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
+	$db = @mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
+	$sdb = @mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
 } else $db = @pg_connect('host='.$SQL_Host.' port='.$SQL_Port.' dbname='.$SQL_Base.' user='.$SQL_User.' password='.$SQL_Passwd.'') or MRTGErrors(3);
 
 HTMLTopPrint($MRTGMsg[54]);
 
 $self = $_SERVER['PHP_SELF'];
+$p = $_GET['p'];
 
 if ( isset($group) && !(isset($mode)) ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[54]</b></td></tr></table><br>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[54]</b></td></tr></table><br>";
 
 	if (!isset($p)) $p = 1;
 
-	print "<table width=100% cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=30><b>$MRTGMsg[55]</b></td><td><b>$MRTGMsg[56]</b></td><td width=130><b>$MRTGMsg[9]</b></td></tr>";
+	print "<table width='100%' cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=30><b>$MRTGMsg[55]</b></td><td><b>$MRTGMsg[56]</b></td><td width=130><b>$MRTGMsg[9]</b></td></tr>";
 
 	if($SQL_Type == "mysql") {
 		$result = mysql_query("select mrtg_group.id,mrtg_group.title from mrtg_group order by id asc");
@@ -57,21 +58,21 @@ if ( isset($group) && !(isset($mode)) ) {
 		print "</table>";
 	} else {
 		print "</table>";
-		print "<table cellpadding=2 cellspacing=0 width=100%><tr><td align=left><b>$MRTGMsg[6]:</b> [$ps - $pe] $MRTGMsg[7] $rows</td><td align=right><b>$MRTGMsg[8]: </b>";
+		print "<table cellpadding=2 cellspacing=0 width='100%'><tr><td align=left><b>$MRTGMsg[6]:</b> [$ps - $pe] $MRTGMsg[7] $rows</td><td align=right><b>$MRTGMsg[8]: </b>";
 		$ip=$p-1;
 		$in=$p+1;
-		if ($p > 1) print " <a href='group.php?group=set&p=$ip'><<</a>";
+		if ($p > 1) print " <a href='group.php?group=set&amp;p=$ip'><<</a>";
 		for ($i=1; $i<=$pn; $i++) {
 			if ($i == $p) print("<b> [$i]</b>");
-			else print " <a href='group.php?group=set&p=$i'>[$i]</a>";
+			else print " <a href='group.php?group=set&amp;p=$i'>[$i]</a>";
 		}
-		if ($p < $pn) print " <a href='group.php?group=set&p=$in'>>></a>";
+		if ($p < $pn) print " <a href='group.php?group=set&amp;p=$in'>>></a>";
 		print "</td></tr></table>";
 	}
 
 	print "<div align=center><table cellpadding=0 cellspacing=5><tr align=center>";
-	print "<td><form method=post ACTION='group.php'><input type=hidden name=mode value='add'><input type=submit value=\"$MRTGMsg[72]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:130px\"></form></td>";
-	print "<td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form></td></tr></table>";
+	print "<td><form method=post ACTION='group.php'><input type=hidden name=mode value='add'><input type=submit class='submit_main_button' value='$MRTGMsg[72]'></form></td>";
+	print "<td><form method=post ACTION='index.php'><input type=submit class='submit_main_button' value='$MRTGMsg[24]'></form></td></tr></table>";
 
 } elseif ( isset($mode) && $mode == "view") {
 
@@ -87,9 +88,9 @@ if ( isset($group) && !(isset($mode)) ) {
 
 	$title_group = $row[0];
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[63] <font color='#0000FF'>$title_group</font></b></td></tr></table><br>";
-	print "<table width=100% cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=40><b>$MRTGMsg[55]</b></td><td><b>$MRTGMsg[56]</b></td><td width=150><b>$MRTGMsg[9]</b></td></tr>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[63] <font color='#0000FF'>$title_group</font></b></td></tr></table><br>";
+	print "<table width='100%' cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=40><b>$MRTGMsg[55]</b></td><td><b>$MRTGMsg[56]</b></td><td width=150><b>$MRTGMsg[9]</b></td></tr>";
 
 	if($SQL_Type == "mysql") {
 		$result = mysql_query("select mrtg_group.id,mrtg_group.title from mrtg_group where mrtg_group.id=".$gid);
@@ -108,12 +109,12 @@ if ( isset($group) && !(isset($mode)) ) {
 	print "<td><a href='group.php?gid=$gid&mode=edit'>$MRTGMsg[11]</a> | <a href='group.php?gid=$gid&mode=delete'>$MRTGMsg[12]</a></td>";
 	print "</tr></table><br><br>";
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[64] <font color='#0000FF'>$title_group</font></b></td></tr></table><br>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[64] <font color='#0000FF'>$title_group</font></b></td></tr></table><br>";
 
 	if ( $gid != $GID_Trash ) {
 
 		// Показываем состав группы (кроме Корзины)
-		print "<table width=100% cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=40><b>$MRTGMsg[58]</b></td><td width=40><b>$MRTGMsg[67]</b></td><td width=140><b>$MRTGMsg[1]</b></td><td><b>$MRTGMsg[2]</b></td><td width=70><b>$MRTGMsg[61]</b></td><td width=70><b>$MRTGMsg[62]</b></td><td width=150><b>$MRTGMsg[9]</b></td></tr>";
+		print "<table width='100%' cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=40><b>$MRTGMsg[58]</b></td><td width=40><b>$MRTGMsg[67]</b></td><td width=140><b>$MRTGMsg[1]</b></td><td><b>$MRTGMsg[2]</b></td><td width=70><b>$MRTGMsg[61]</b></td><td width=70><b>$MRTGMsg[62]</b></td><td width=150><b>$MRTGMsg[9]</b></td></tr>";
 
 		if($SQL_Type == "mysql") {
 			$result = mysql_query("select templates.id, templates.agent_id, agent_ip.ip, agent.title, templates.hide_set, templates.row_set, templates.column_set from templates,mrtg_group,agent,agent_ip where mrtg_group.id=templates.group_id and templates.agent_id=agent.id and agent.ip=agent_ip.id and mrtg_group.id=".$gid." and agent.trash=0 order by templates.id asc");
@@ -153,7 +154,7 @@ if ( isset($group) && !(isset($mode)) ) {
 
 		// Показываем Корзину
 
-		print "<table width=100% cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=40><b>$MRTGMsg[67]</b></td><td width=120><b>$MRTGMsg[1]</b></td><td><b>$MRTGMsg[2]</b></td><td width=120><b>$MRTGMsg[3]</b></td><td width=100><b>$MRTGMsg[4]</b></td><td width=200><b>$MRTGMsg[9]</b></td></tr>";
+		print "<table width='100%' cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=40><b>$MRTGMsg[67]</b></td><td width=120><b>$MRTGMsg[1]</b></td><td><b>$MRTGMsg[2]</b></td><td width=120><b>$MRTGMsg[3]</b></td><td width=100><b>$MRTGMsg[4]</b></td><td width=200><b>$MRTGMsg[9]</b></td></tr>";
 
 		if($SQL_Type == "mysql") {
 			$result = mysql_query("select agent.id, agent_ip.ip, agent.title, agent.ver_snmp, agent_ip.community from agent,agent_ip where agent.trash=$GID_Trash and agent.ip=agent_ip.id order by id asc");
@@ -178,7 +179,7 @@ if ( isset($group) && !(isset($mode)) ) {
 				print "<td>".$row[3]."</td>";
 				if( $Show_Community == "0" ) print "<td>*****</td>";
 				else print "<td>".$row[4]."</td>";
-				print "<td><a href='view.php?id=$row[0]&mode=delete'>$MRTGMsg[10]</a> | <a href='delete.php?id=$row[0]&mode=restore'>$MRTGMsg[101]</a> | <a href='delete.php?id=$row[0]&mode=delete'>$MRTGMsg[12]</a></td>";
+				print "<td><a href='view.php?id=$row[0]&mode=delete'>$MRTGMsg[10]</a> | <a href='delete.php?id=$row[0]&gid=$gid&mode=restore'>$MRTGMsg[101]</a> | <a href='delete.php?id=$row[0]&gid=$gid&mode=delete'>$MRTGMsg[12]</a></td>";
 			}
 		}
 
@@ -191,27 +192,27 @@ if ( isset($group) && !(isset($mode)) ) {
 		print "</table>";
 	} else {
 		print "</table>";
-		print "<table cellpadding=2 cellspacing=0 width=100%><tr><td align=left><b>$MRTGMsg[6]:</b> [$ps - $pe] $MRTGMsg[7] $rows</td><td align=right><b>$MRTGMsg[8]: </b>";
+		print "<table cellpadding=2 cellspacing=0 width='100%'><tr><td align=left><b>$MRTGMsg[6]:</b> [$ps - $pe] $MRTGMsg[7] $rows</td><td align=right><b>$MRTGMsg[8]: </b>";
 		$ip=$p-1;
 		$in=$p+1;
-		if ($p > 1) print " <a href='group.php?gid=$gid&mode=view&group=set&p=$ip'><<</a>";
+		if ($p > 1) print " <a href='group.php?gid=$gid&amp;mode=view&amp;group=set&amp;p=$ip'><<</a>";
 		for ($i=1; $i<=$pn; $i++) {
 			if ($i == $p) print("<b> [$i]</b>");
-			else print " <a href='group.php?gid=$gid&mode=view&group=set&p=$i'>[$i]</a>";
+			else print " <a href='group.php?gid=$gid&amp;mode=view&amp;group=set&amp;p=$i'>[$i]</a>";
 		}
-		if ($p < $pn) print " <a href='group.php?gid=$gid&mode=view&group=set&p=$in'>>></a>";
+		if ($p < $pn) print " <a href='group.php?gid=$gid&amp;mode=view&amp;group=set&amp;p=$in'>>></a>";
 		print "</td></tr></table>";
 	}
 
 	print "<br><div align=center><table cellpadding=0 cellspacing=5><tr align=center>";
-	if ( $gid != $GID_Trash ) print "<td><form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=gid value='$gid'><input type=submit value='$MRTGMsg[74]' style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form></td>";
-	print "<td><form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit value=\"$MRTGMsg[54]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form></td>";
-	print "<td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form></td></tr></table>";
+	if ( $gid != $GID_Trash ) print "<td><form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=gid value='$gid'><input type=submit class='submit_main_button' value='$MRTGMsg[74]'></form></td>";
+	print "<td><form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit class='submit_main_button' value='$MRTGMsg[54]'></form></td>";
+	print "<td><form method=post ACTION='index.php'><input type=submit class='submit_main_button' value='$MRTGMsg[24]'></form></td></tr></table>";
 
 } elseif ( isset($mode) && $mode == "edit" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[13] $MRTGMsg[46] <font color='#0000FF'>$gid</font></b></td></tr></table>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[13] $MRTGMsg[46] <font color='#0000FF'>$gid</font></b></td></tr></table>";
 
 	if (isset($gid) && !(isset($save)) ) {
 
@@ -225,18 +226,18 @@ if ( isset($group) && !(isset($mode)) ) {
 			$row = pg_fetch_row($result);
 		}
 
-		print "<br><table width=100% align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
+		print "<br><table width='100%' align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
 		print "<tr bgcolor='#AABBCC' align=center><td width=20%><b>$MRTGMsg[41]</b></td><td><b>$MRTGMsg[42]</b></td></tr>";
 		print "<tr align=center bgcolor='#F0F0F0'><td width=20%><b>".$MRTGMsg[55]."</b></td><td><input type=hidden name='gid' value='$row[0]'></input><font color='#0000FF'><b>$row[0]</b></font></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[70]."</td><td><input type='text' name='title' style='color:black;border:1x solid black;background-color:#FFFFFF;font-size:12px;width: 90%' value='$row[1]'></input></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=mode value='edit'><input type=hidden name=save value='set'><input type='submit' name='submit' style='color:blue;border:1x solid red;background-color:#EDEEEE;font-size:12px;width: 100px' value='$MRTGMsg[43]'></input></td></tr></form></table>";
+		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[70]."</td><td><input type='text' name='title' value='$row[1]'></input></td></tr>";
+		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=mode value='edit'><input type=hidden name=save value='set'><input type=submit name='submit' class='submit_button' value='$MRTGMsg[43]'></input></td></tr></form></table>";
 
 	} elseif ( isset($save) ) {
 		if ( $title == '' ) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[52]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='edit'><input type=hidden name=gid value='$gid'><input type=submit value=\"$MRTGMsg[75]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='edit'><input type=hidden name=gid value='$gid'><input type=submit class='submit_button' value='$MRTGMsg[75]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -245,15 +246,15 @@ if ( isset($group) && !(isset($mode)) ) {
 		if ($result) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[47] <font color='#0000FF'>$gid</font> $MRTGMsg[48]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit value=\"$MRTGMsg[54]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit class='submit_button' style='width:150px' value='$MRTGMsg[54]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} else {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[49] <font color='#0000FF'>$gid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='edit'><input type=hidden name=gid value='$gid'><input type=submit value=\"$MRTGMsg[75]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='edit'><input type=hidden name=gid value='$gid'><input type=submit class='submit_button' style='width:150px' value='$MRTGMsg[75]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -261,8 +262,8 @@ if ( isset($group) && !(isset($mode)) ) {
 
 } elseif ( isset($mode) && $mode == "add" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[69]</b></td></tr></table>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[69]</b></td></tr></table>";
 
 	if ( !(isset($save)) ) {
 
@@ -286,18 +287,18 @@ if ( isset($group) && !(isset($mode)) ) {
 		}
 		if ($gids == 0) $gid = $rows;
 
-		print "<br><table width=100% align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
+		print "<br><table width='100%' align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
 		print "<tr align=center bgcolor='#F0F0F0'><td width=20%><b>".$MRTGMsg[55]."</b></td><td><input type=hidden name='gid' value='$gid'></input><font color='#0000FF'><b>$gid</b></font></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[70]."</td><td><input type='text' name='title' style='color:black;border:1x solid black;background-color:#FFFFFF;font-size:12px;width: 90%' value=''></input></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=mode value='add'><input type=hidden name=save value='set'><input type='submit' name='submit' style='color:blue;border:1x solid red;background-color:#EDEEEE;font-size:12px;width: 100px' value='$MRTGMsg[43]'></input></td></tr></form></table>";
+		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[70]."</td><td><input type='text' name='title' value=''></input></td></tr>";
+		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=mode value='add'><input type=hidden name=save value='set'><input type='submit' name='submit' class='submit_button' value='$MRTGMsg[43]'></input></td></tr></form></table>";
 
 	} else {
 
 		if ( $title == '' ) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[52]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='add'><input type=submit value=\"$MRTGMsg[72]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:130px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='add'><input type=submit class='submit_button' value='$MRTGMsg[72]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -306,15 +307,15 @@ if ( isset($group) && !(isset($mode)) ) {
 		if ($result) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[47] <font color='#0000FF'>$gid</font> $MRTGMsg[51]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit value=\"$MRTGMsg[54]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit class='submit_button' style='width:150px' value='$MRTGMsg[54]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} else {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[50] <font color='#0000FF'>$gid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='add'><input type=submit value=\"$MRTGMsg[72]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:130px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=mode value='add'><input type=submit class='submit_button' style='width:150px' value='$MRTGMsg[72]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -322,23 +323,23 @@ if ( isset($group) && !(isset($mode)) ) {
 
 } elseif ( isset($mode) && $mode == "delete" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
 	print "<tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[25]</b></td></tr></table><br>";
 
 	if ( isset($mode) && ( $gid == 0 || $gid == $GID_Trash ) ) {
 		print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[68]</b><br><br>";
 		print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-		print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit value=\"$MRTGMsg[54]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-		print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+		print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit class='submit_button' style='width:150px' value='$MRTGMsg[54]'></form>";
+		print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 		print "</td></tr></table></td></tr></table></div>";
 		exit;
 	}
 
 	if ( isset($mode) && !(isset($confirm_delete)) ) {
-		print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[26] <font color='#0000FF'>$gid</font> ???</b><br><br>";
+		print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[26] <font color='#0000FF'>$gid</font>?</b><br><br>";
 		print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-		print "<form method=post ACTION=$self><input type=hidden name=mode value='delete'><input type=hidden name=gid value=$gid><input type=hidden name=confirm_delete value='set'><input type=submit value=\"$MRTGMsg[21]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:70px\"></form>";
-		print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[22]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:70px\"></form>";
+		print "<form method=post ACTION=$self><input type=hidden name=mode value='delete'><input type=hidden name=gid value=$gid><input type=hidden name=confirm_delete value='set'><input type=submit class='submit_button' value='$MRTGMsg[21]'></form>";
+		print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[22]'></form>";
 		print "</td></tr></table></td></tr></table></div>";
 	} elseif ( isset($mode) && isset($confirm_delete) ) {
 		$records = array("id" => $gid);
@@ -347,14 +348,14 @@ if ( isset($group) && !(isset($mode)) ) {
 		if ($result) {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[28] <font color='#0000FF'>$gid</font> $MRTGMsg[29]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit value=\"$MRTGMsg[54]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit class='submit_button' style='width:150px' value='$MRTGMsg[54]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		} else {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[30] <font color='#0000FF'>$gid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit value=\"$MRTGMsg[54]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='group.php'><input type=hidden name=group value='set'><input type=submit class='submit_button' style='width:150px' value='$MRTGMsg[54]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		}
 

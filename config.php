@@ -5,12 +5,12 @@
 
 // Russian: Запрещаем вывод Display Errors на экран
 // English: Supress Display Errors
-ini_set('display_errors','on');
+ini_set('display_errors','off');
 
 // Russian: Настройки доступа к базе данных
 // English: Database settings
 $SQL_Type = "mysql"; 		// mysql or postgres
-$SQL_Host = "127.0.0.1";
+$SQL_Host = "localhost";
 $SQL_Port = "3306";		// 3306 or 5432
 $SQL_Base = "mrtg";
 $SQL_User = "mrtg";

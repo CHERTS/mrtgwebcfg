@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('IN_ADMIN', true);
 
@@ -11,14 +11,14 @@ require "./../lang/$MRTGLang.php";
 if (Check_Access() != "Allow") MRTGErrors(6);
 
 if($SQL_Type == "mysql") {
-	$db = mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
-	$sdb = mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
+	$db = @mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
+	$sdb = @mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
 } else $db = @pg_connect('host='.$SQL_Host.' port='.$SQL_Port.' dbname='.$SQL_Base.' user='.$SQL_User.' password='.$SQL_Passwd.'') or MRTGErrors(3);
 
 HTMLTopPrint($MRTGMsg[126]);
 
-print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[126]</b></td></tr></table>";
+print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[126]</b></td></tr></table>";
 
 if ( $gid != '') {
 	$Set_Errors = 0;
@@ -33,7 +33,7 @@ if ( $gid != '') {
 	}
 
 	if($Debug_Mode == '1') {
-		print "<br><table width=100% align=center cellpadding=2 cellspacing=1 bgcolor='#808080'>";
+		print "<br><table width='100%' align=center cellpadding=2 cellspacing=1 bgcolor='#808080'>";
 		print "<tr bgcolor='#AABBCC' align=center><td width=50%><b>$MRTGMsg[127]</b></td><td width=50%><b>$MRTGMsg[128]</b></td></tr>";
 	}
 
@@ -51,12 +51,12 @@ if ( $gid != '') {
 	print "</table>";
 	if ( $Set_Errors != '1' ) {
 		print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[131]</b><br>";
-		print "<form method=post ACTION='templates-gui.php'><input type=submit value=\"$MRTGMsg[121]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:250px\"></form>";
+		print "<br><form method=post ACTION='templates-gui.php'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[121]'></form>";
 		print "</td></tr></table></div>";
 		exit;
 	} else {
 		print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[132]</b><br>";
-		print "<form method=post ACTION='templates-gui.php'><input type=submit value=\"$MRTGMsg[121]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:250px\"></form>";
+		print "<br><form method=post ACTION='templates-gui.php'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[121]'></form>";
 		print "</td></tr></table></div>";
 		exit;
 	}

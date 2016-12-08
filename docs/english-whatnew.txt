@@ -1,5 +1,17 @@
+That new in version 2.21:
+- Localization files in UTF-8
+- register_globals is now no need to put in the On
+- Fixed minor bugs
+
 That new in version 2.20:
--
+- File modes can be assigned on new images creation;
+- Two removed config.php settings: $Full_Settings, $Settings
+- Five new config.php settings: $Auto_CHMOD, $CHMOD_Images_Dir, $CHMOD_Images_Dir_Err, $Deny_Save_Config_File, $Deny_Check_Update
+- config.php web editor added
+- Pages for adding, view and modificating records are changed, mrtg.cfg changes displayed there.
+- New MRTG settings added: kilo, rrdrowcount30m, rrdrowcount2h, rrdrowcount1d, rrdhwrras, sfilename, setenv, pagetop
+- "Target" setting can be SNMP or OTHER (OTHER means arbitrary value, including script or predefined value)
+- Code optimization
 
 That new in version 2.19:
 - Now it can determine whether new version of MRTGWebCfg was released.

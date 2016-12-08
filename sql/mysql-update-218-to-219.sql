@@ -8,7 +8,6 @@ ALTER TABLE global_err
     ADD intervals varchar(255) NOT NULL,
     ADD nodetach varchar(255) NOT NULL;
 
-
 CREATE TABLE config (
 	config_name varchar(255) NOT NULL,
 	config_value varchar(255) NOT NULL,

@@ -11,11 +11,11 @@ MRTGWebCfg is a tool written in PHP which does:
 - RRD files analysis and visualising.
 - Any MRTG graphic output.
 
-Developer: Michael Grigorjev
-E-Mail: sleuthhound@gmail.com
-ICQ: 161867489
-WWW: http://novell.chel.ru
-Forum: http://novell.chel.ru/forum
+Developer:	Michael Grigorev
+E-Mail:		sleuthhound@gmail.com
+ICQ:		161867489
+WWW:		http://novell.chel.ru
+Forum:		http://novell.chel.ru/forum
 
 Idea by: Pavel Shirshov
 --------
@@ -30,13 +30,14 @@ Operationg System: Linux, FreeBSD, virtually any unix like system.
 Database: PostgreSQL 7.x/8.x or MySQL 4.x/5.x
 Web-server: Apache 2.0.x
 Additional software things:
+- MRTG
+- RRDTOOL
+- NET-SNMP
 - PHP4 or PHP5
 - PHP-GD
-- PHP-PGSQL
+- PHP-PGSQL or PHP-MYSQL
+- PHP-PCRE
 - PHP-RRDTOOL
-- RRDTOOL
-- MRTG
-- NET-SNMP
 
 FreeBSD installation guide:
 ---------------------------
@@ -53,17 +54,16 @@ Output :
 3. Copy mrtgwebcfg folder into root folder of Apache
 
 4. Set mrtgwebcfg permission and ownership:
-chown -R www:wheel /root_directory_of_apache_installation/mrtgwebcfg/
-chmod -R 775 /root_directory_of_apache_installation/mrtgwebcfg/
-cd mrtgwebcfg/
+# chown -R www:wheel /root_directory_of_apache_installation/mrtgwebcfg/
+# chmod -R 775 /root_directory_of_apache_installation/mrtgwebcfg/
 
 5. Create backup folder for MRTG configuration:
-mkdir /usr/local/etc/mrtg/backup
-mkdir /usr/local/etc/mrtg/backup-err
+# mkdir /usr/local/etc/mrtg/backup
+# mkdir /usr/local/etc/mrtg/backup-err
 
 6. Set it's permission and ownership:
-chown -R www:wheel /usr/local/etc/mrtg
-chmod -R 775 /usr/local/etc/mrtg
+# chown -R www:wheel /usr/local/etc/mrtg
+# chmod -R 775 /usr/local/etc/mrtg
 
 7. Create and populate PostgreSQL database as following:
 
@@ -102,7 +102,8 @@ chmod -R 775 /usr/local/etc/mrtg
 8.2  Populate database with /mrtgwebcfg/sql/mysql-table.sql and /mrtgwebcfg/sql/mysql-data.sql scripts
 
  For instance:
- mysql -u root -p 
+ # mysql -u root -p 
+ mysql> use mrtg;
  mysql> \. /path/to/mysql-table.sql
  mysql> \. /path/to/mysql-data.sql
  mysql> \q
@@ -110,7 +111,7 @@ chmod -R 775 /usr/local/etc/mrtg
 8.3  Follow to the step 9 of the current manual.
 
 9. Open your favourite Web-browser at: http://server/mrtgwebcfg/
-Conglaturations, You have finished installation if You see main page of  MRTGViewer.
+Conglaturations, You have finished installation if You see main page of MRTGWebCfg.
 Please pay more attention if You see "Testing Your php installation...", most probably You didn't install some required php module or other required piece of software.
 
 10. Navigate in Web-browser to "Control Panel" -> "Edit MRTG Global Settings" and change  WorkDir and ImageDir settings appropriately.
@@ -154,16 +155,11 @@ touch /var/log/mrtg-err.log
 Restart cron daemon
 killall -HUP cron
 
-14. In a while graphics must appear on the main page of MRTGViewer (http://server/mrtgwebcfg/).
+14. In a while graphics must appear on the main page of MRTGWebCfg (http://server/mrtgwebcfg/).
 
 This finishes MRTGWebCfg installation.
 
 We also recommend to read further documentation "Using MRTGWebCfg". It contains step by step guide to add hosts, groups of hosts, templates and all the stuff related to using MRTGWebCfg.
 
-Do not hesitate to contact developer in case of any question
+Do not hesitate to contact developer in case of any question.
 
-Developer: Michael Grigorjev
-E-Mail: sleuthhound@gmail.com
-ICQ: 161867489
-WWW: http://novell.chel.ru
-Forum: http://novell.chel.ru/forum

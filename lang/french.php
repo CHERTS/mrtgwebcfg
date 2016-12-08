@@ -1,6 +1,6 @@
-<?
+﻿<?php
 
-$MRTGConfVer = "MRTGWebCfg 2.20";
+$MRTGConfVer = "MRTGWebCfg 2.21";
 
 $MRTGInstall[0] = "Test de votre installation php...";
 $MRTGInstall[1] = "Composants PHP";
@@ -10,10 +10,13 @@ $MRTGInstall[4] = "Composant non installe";
 $MRTGInstall[5] = "Verification de php.ini";
 $MRTGInstall[6] = "Variable";
 $MRTGInstall[7] = "OK";
-$MRTGInstall[8] = "Erreur!!!";
+$MRTGInstall[8] = "Erreur!";
 $MRTGInstall[9] = "Verification de php.ini";
 $MRTGInstall[10] = "Variable";
 $MRTGInstall[11] = "Variable initialisee a/Variable devrait etre initialisee a";
+$MRTGInstall[12] = "Проверка необходимых php-функций";
+$MRTGInstall[13] = "PHP-функция";
+$MRTGInstall[14] = "Ошибка! PHP-функция не найдена";
 $MRTGInstall[100] = "Attention! L'ensemble de ces problemes doivent etre resolu";
 
 $MRTGErrorMsg[0] = "Erreur";
@@ -31,6 +34,13 @@ $MRTGErrorMsg[11] = "Specifier un mot de passe SNMP";
 $MRTGErrorMsg[12] = "Specifier un nom d'utilisateur SNMP";
 $MRTGErrorMsg[13] = "Aucun nom utilisateur SNMP ni mot de passe specifie";
 $MRTGErrorMsg[14] = "Protocole d'autorisation SNMP non specifie";
+
+//
+// English, please translate into French
+//
+$MRTGErrorMsg[15] = "Database version of MRTGWebCfg (%s) do not matches php-scripts (%s).<br>Either upgrade database or php-scripts and try again.";
+$MRTGErrorMsg[16] = "MRTGWebCfg version in not present in database.<br>Please, upgrade database and try again.";
+// End
 
 $MRTGMsg[0] = "MRTGWebCfg";
 $MRTGMsg[1] = "Adresse IP";
@@ -61,7 +71,7 @@ $MRTGMsg[25] = "Enregistrement efface";
 $MRTGMsg[26] = "Voulez-vous vraiment<br>supprimer cet enregistrement numero";
 $MRTGMsg[27] = "Vous ne voulez<font color=#0000FF>pas</font><br>effacer l'enregistrement numero";
 $MRTGMsg[28] = "Enregistrement";
-$MRTGMsg[29] = "supprime !!!";
+$MRTGMsg[29] = "supprime!";
 $MRTGMsg[30] = "Impossible de supprimer cet enregistrement";
 $MRTGMsg[31] = "Votre adresse ip :";
 $MRTGMsg[32] = "Enregistrement ajoute";
@@ -77,14 +87,14 @@ $MRTGMsg[41] = "Indication";
 $MRTGMsg[42] = "Variable";
 $MRTGMsg[43] = "Enregistrement";
 $MRTGMsg[44] = "Nouveau parametres globaux de MRTG applique";
-$MRTGMsg[45] = "<font color='#FF0000'>Erreur!!!</font><br><br>Nouveau parametres globaux MRTG ne peuvent pas etre applique";
+$MRTGMsg[45] = "<font color='#FF0000'>Erreur!</font><br><br>Nouveau parametres globaux MRTG ne peuvent pas etre applique";
 $MRTGMsg[46] = "numero";
 $MRTGMsg[47] = "Enregistrement<font color='#0000FF'>";
 $MRTGMsg[48] = "</font>modifie";
-$MRTGMsg[49] = "<font color='#FF0000'>Erreur !!!</font><br><br>impossible de modifie cet enregistrement <font color='#0000FF'>";
-$MRTGMsg[50] = "<font color='#FF0000'>Erreur !!!</font><br><br>impossible d'ajouter cet enregistrement <font color='#0000FF'>";
+$MRTGMsg[49] = "<font color='#FF0000'>Erreur!</font><br><br>impossible de modifie cet enregistrement <font color='#0000FF'>";
+$MRTGMsg[50] = "<font color='#FF0000'>Erreur!</font><br><br>impossible d'ajouter cet enregistrement <font color='#0000FF'>";
 $MRTGMsg[51] = "</font>ajoute a la base de donnee";
-$MRTGMsg[52] = "<font color='#FF0000'>Erreur !!!</font><br><br>Tous les champs obligatoire doivent etre specifies";
+$MRTGMsg[52] = "<font color='#FF0000'>Erreur!</font><br><br>Tous les champs obligatoire doivent etre specifies";
 $MRTGMsg[53] = "Gestion des modeles";
 $MRTGMsg[54] = "Groupe de gestion";
 $MRTGMsg[55] = "GID";
@@ -100,7 +110,7 @@ $MRTGMsg[64] = "Membres du groupe";
 $MRTGMsg[65] = "Ajouter";
 $MRTGMsg[66] = "Modeles";
 $MRTGMsg[67] = "HID";
-$MRTGMsg[68] = "Ce groupe ne peut etre supprime !!!";
+$MRTGMsg[68] = "Ce groupe ne peut etre supprime!";
 $MRTGMsg[69] = "Ajouter un groupe";
 $MRTGMsg[70] = "Nom du groupe";
 $MRTGMsg[71] = "Fichier du groupe";
@@ -109,7 +119,7 @@ $MRTGMsg[73] = "Cache";
 $MRTGMsg[74] = "Ajouter un modele";
 $MRTGMsg[75] = "Modifier un groupe";
 $MRTGMsg[76] = "Modifier un modele";
-$MRTGMsg[77] = "Modele pensant que le groupe par defaut ne peut pas etre efface !!!";
+$MRTGMsg[77] = "Modele pensant que le groupe par defaut ne peut pas etre efface!";
 $MRTGMsg[78] = "Ajouter modele";
 $MRTGMsg[79] = "Creer une machine (host) modele";
 $MRTGMsg[80] = "Recherche en cours";
@@ -118,7 +128,7 @@ $MRTGMsg[82] = "Mots cles";
 $MRTGMsg[83] = "Resultat de la recherche";
 $MRTGMsg[84] = "Trouve";
 $MRTGMsg[85] = "Enregistrement en mode cache";
-$MRTGMsg[86] = "<font color='#FF0000'>Attention !!!</font><br>";
+$MRTGMsg[86] = "<font color='#FF0000'>Attention!</font><br>";
 $MRTGMsg[87] = "Modele";
 $MRTGMsg[88] = "est  actuellement <font color='#0000FF'>ACTIF</font>";
 $MRTGMsg[89] = "est actuellement <font color='#0000FF'>INACTIF<font>";
@@ -130,7 +140,7 @@ $MRTGMsg[94] = "Recherche";
 $MRTGMsg[95] = "en commentaire";
 $MRTGMsg[96] = "pour l'adresse ip";
 $MRTGMsg[97] = "Page principale";
-$MRTGMsg[98] = "<font color='#FF0000'>Erreur !!!</font><br><br>pas plus que";
+$MRTGMsg[98] = "<font color='#FF0000'>Erreur!</font><br><br>pas plus que";
 $MRTGMsg[99] = "Modele";
 $MRTGMsg[100] = "Cree dans le groupe Default";
 $MRTGMsg[101] = "RESTAURER";
@@ -151,8 +161,8 @@ $MRTGMsg[115] = "Enregistrement clone";
 $MRTGMsg[116] = "Enregistrement original";
 $MRTGMsg[117] = "Enregistrement clone";
 $MRTGMsg[118] = "Clone";
-$MRTGMsg[119] = "<font color='#FF0000'>Erreur !!!</font><br><br>Base de donnee a ete modifie.<br><br>Aller a la page principale et recommencer.";
-$MRTGMsg[120] = "<font color='#FF0000'>Erreur !!!</font><br><br>Duplication de <font color='#0000FF'>nom de fichier</font><br>S'il vous plaît changer ce champ";
+$MRTGMsg[119] = "<font color='#FF0000'>Erreur!</font><br><br>Base de donnee a ete modifie.<br><br>Aller a la page principale et recommencer.";
+$MRTGMsg[120] = "<font color='#FF0000'>Erreur!</font><br><br>Duplication de <font color='#0000FF'>RRD FileName (Host Name)</font><br>S'il vous plaît changer ce champ";
 $MRTGMsg[121] = "Modele de gestion - Interface Grapique";
 $MRTGMsg[122] = "<font color='#FF0000'>Vous pouvez placer ce graphique icie</font>";
 $MRTGMsg[123] = "Parametre";
@@ -197,7 +207,7 @@ $MRTGMsg[161] = "Vert ###";
 $MRTGMsg[162] = "Bleu ###";
 $MRTGMsg[163] = "Flux entrant, bits par secondes";
 $MRTGMsg[164] = "Flux sortant, bits par secondes";
-$MRTGMsg[165] = "<font color='#0000FF'>Attention !!!</font> Cet enregistrement est supprime dans la corbeille";
+$MRTGMsg[165] = "<font color='#0000FF'>Attention!</font> Cet enregistrement est supprime dans la corbeille";
 $MRTGMsg[166] = "utilise";
 $MRTGMsg[167] = "n'utilise pas";
 $MRTGMsg[168] = "Erreurs d'interface";
@@ -257,6 +267,9 @@ $MRTGMsg[221] = "NoDetach";
 $MRTGMsg[222] = "MRTGWebCfg - Management";
 $MRTGMsg[223] = "MRTGWebCfg - View statistics";
 
+//
+// English, please translate into French
+//
 $MRTGMsg[224] = "Settings MRTGWebCfg";
 $MRTGMsg[225] = "Title";
 $MRTGMsg[226] = "Value";
@@ -286,22 +299,33 @@ $MRTGMsg[249] = "Subnets allowed to access MRTGWebCfg";
 $MRTGMsg[250] = "The automatic language selection system";
 $MRTGMsg[251] = "System language";
 $MRTGMsg[252] = "To show or not to show SNMP password on Control Panel";
-$MRTGMsg[253] = "Устанавливать права на файлы картинок";
-$MRTGMsg[254] = "Каталог на который меняются права";
-$MRTGMsg[255] = "Каталог на который меняются права";
-$MRTGMsg[256] = "Разделитель адресов - знак <font color='#FF0000'><b>;</b></font>";
-$MRTGMsg[257] = "<font color='#FF0000'><b>Do not edit!!!</b></font>";
+$MRTGMsg[253] = "To set modes of image files";
+$MRTGMsg[254] = "The folder, which mode is being changed";
+$MRTGMsg[255] = "The folder, which mode is being changed";
+$MRTGMsg[256] = "Addresses delimiter - <font color='#FF0000'><b>;</b></font>";
+$MRTGMsg[257] = "<font color='#FF0000'><b>Do not edit!</b></font>";
 $MRTGMsg[258] = "On.";
 $MRTGMsg[259] = "Off.";
-$MRTGMsg[260] = "Настройки MRTGWebCfg (file config.php) сохранены!";
-$MRTGMsg[261] = "Настройки MRTGWebCfg (file config_err.php) сохранены!";
-$MRTGMsg[262] = "Разделитель переменных - знак <font color='#FF0000'><b>;</b></font>";
-$MRTGMsg[263] = "File config.php";
-$MRTGMsg[264] = "File config-err.php";
-$MRTGMsg[265] = "Where temporarily file is generated to";
-$MRTGMsg[266] = "Source configuration file";
-$MRTGMsg[267] = "Destination old configuration file (Backup)";
-$MRTGMsg[268] = "Изменение файлов конфигурации запрещено!";
+$MRTGMsg[260] = "MRTGWebCfg settings (config.php) saved!";
+$MRTGMsg[261] = "MRTGWebCfg settings (config_err.php) saved!";
+$MRTGMsg[262] = "Settings delimiter - <font color='#FF0000'><b>;</b></font>";
+$MRTGMsg[263] = "config.php";
+$MRTGMsg[264] = "config-err.php";
+$MRTGMsg[265] = "Place to store temp file";
+$MRTGMsg[266] = "Place where configration backup is stored";
+$MRTGMsg[267] = "Place where old configuration backup is stored";
+$MRTGMsg[268] = "Configuration edit is not permitted!";
+$MRTGMsg[269] = "Prohibit editing MRTGWebCfg configuration";
+$MRTGMsg[270] = "Prohibit MRTGWebCfg updates search";
+$MRTGMsg[271] = "Target settings type";
+$MRTGMsg[272] = "Choose type";
+$MRTGMsg[273] = "<font color='#FF0000'>Error!</font><br><br>No definition for <font color='#0000FF'>'Target settings type'</font>";
+$MRTGMsg[274] = "<font color='#FF0000'>Error!</font><br><br>No definition for <font color='#0000FF'>'Other target value'</font>";
+$MRTGMsg[275] = "Back";
+$MRTGMsg[276] = "Host record in mrtg.cfg preview";
+$MRTGMsg[277] = "No errors found, but some records were ignored. Verify SetEnv settings";
+$MRTGMsg[278] = "Impossible d'ajouter des enregistrements à la table";
+// End
 
 $MRTGViewMsg[0] = "Visonneur MRTG";
 $MRTGViewMsg[1] = "Panneau de configuration";
@@ -324,11 +348,13 @@ $MRTGViewMon = array(1=>'Jan',
 //
 // Version Check
 //
+// English, please translate into French
+//
 $lang['Version_up_to_date'] = 'Your installation is up to date, no updates are available for your version of MRTGWebCfg.';
-$lang['Version_not_up_to_date'] = 'Your installation does <b>not</b> seem to be up to date. Updates are available for your version of MRTGWebCfg, please visit <a href="http://www.novell.chel.ru" target="_new">http://www.novell.chel.ru</a> to obtain the latest version.';
+$lang['Version_not_up_to_date'] = 'Your installation does <b>not</b> seem to be up to date. Updates are available for your version of MRTGWebCfg, please visit <a href="http://www.novell.chel.ru" target="_new" class="update">http://www.novell.chel.ru</a> to obtain the latest version.';
 $lang['Latest_version_info'] = 'The latest available version is <b>MRTGWebCfg %s</b>.';
 $lang['Current_version_info'] = 'You are running <b>MRTGWebCfg %s</b>.';
-$lang['Connect_socket_error'] = 'Unable to open connection to MRTGWebCfg Server, reported error is:<br />%s';
+$lang['Connect_socket_error'] = 'Unable to open connection to MRTGWebCfg update server, reported error is:<br /><font color="#ff00cc">%s</font>';
 $lang['Socket_functions_disabled'] = 'Unable to use socket functions.';
 
 ?>

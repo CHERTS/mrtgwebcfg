@@ -1,18 +1,42 @@
 Upgrade guide for MRTGWebCfg
 ----------------------------
 
+How to upgrade 2.19 to 2.20:
+----------------------------
+
+Open  config.php
+
+1. Delete the following settings:
+
+$Full_Settings = array('id','ip','title','ver_snmp','filename','target','interface_ip','interface_name','maxbytes','iftype','title_ip','absmax','withpeak','options','colours','ylegend','shortlegend','legend1','legend2','legend3','legend4','legendi','legendo','routeruptime','kmg','unscaled');
+$Settings = array('filename','target','interface_ip','interface_name','maxbytes','iftype','title_ip','absmax','withpeak','options','colours','ylegend','shortlegend','legend1','legend2','legend3','legend4','legendi','legendo','routeruptime','kmg','unscaled');
+
+2. Add the following settings:
+
+$Auto_CHMOD = "0";
+$CHMOD_Images_Dir = "/home/www/mrtg/images";
+$CHMOD_Images_Dir_Err = "/home/www/mrtg/images-err";
+$Deny_Save_Config_File = "0";
+$Deny_Check_Update = "1";
+
+Database upgrade scripts:
+
+  - MySQL - /sql/mysql-update-219-to-220.sql
+  - PostgreSQL - /sql/postgresql-update-219-to-220.sql
+
+
 How to upgrade 2.18 to 2.19:
 ----------------------------
 
 Database upgrade scripts:
 
- - MySQL - /sql/mysql-update-218-to-219.sql
- - PostgreSQL - /sql/postgresql-update-218-to-219.sql
+  - MySQL - /sql/mysql-update-218-to-219.sql
+  - PostgreSQL - /sql/postgresql-update-218-to-219.sql
 
 Follow to "Edit MRTG Global Settings" and set the following:
 
 (recommended values):
 
- RunAsDaemon: No
- Interval: 5
- NoDetach: No
+  RunAsDaemon: No
+  Interval: 5
+  NoDetach: No

@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('IN_ADMIN', true);
 
@@ -11,8 +11,8 @@ require "./../lang/$MRTGLang.php";
 if (Check_Access() != "Allow") MRTGErrors(6);
 
 if($SQL_Type == "mysql") {
-	$db = mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
-	$sdb = mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
+	$db = @mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
+	$sdb = @mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
 } else $db = @pg_connect('host='.$SQL_Host.' port='.$SQL_Port.' dbname='.$SQL_Base.' user='.$SQL_User.' password='.$SQL_Passwd.'') or MRTGErrors(3);
 
 HTMLTopPrint($MRTGMsg[53]);
@@ -25,9 +25,9 @@ if ( isset($templates) && !(isset($mode)) ) {
 
 	if (!isset($p)) $p = 1;
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[53]</b></td></tr></table><br>";
-	print "<table width=100% cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=50><b>$MRTGMsg[58]</b></td><td width=50><b>$MRTGMsg[67]</b></td><td width=50><b>$MRTGMsg[55]</b></td><td><b>$MRTGMsg[59]</b></td><td width=70><b>$MRTGMsg[61]</b></td><td width=70><b>$MRTGMsg[62]</b></td><td width=150><b>$MRTGMsg[9]</b></td></tr>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[53]</b></td></tr></table><br>";
+	print "<table width='100%' cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td width=50><b>$MRTGMsg[58]</b></td><td width=50><b>$MRTGMsg[67]</b></td><td width=50><b>$MRTGMsg[55]</b></td><td><b>$MRTGMsg[59]</b></td><td width=70><b>$MRTGMsg[61]</b></td><td width=70><b>$MRTGMsg[62]</b></td><td width=150><b>$MRTGMsg[9]</b></td></tr>";
 
 	if($SQL_Type == "mysql") {
 		$result = mysql_query("select templates.id, templates.agent_id, templates.group_id, mrtg_group.title, templates.row_set, templates.column_set, templates.hide_set from mrtg_group,templates,agent where mrtg_group.id=templates.group_id and templates.agent_id=agent.id and mrtg_group.id != $GID_Trash order by templates.id asc");
@@ -63,34 +63,34 @@ if ( isset($templates) && !(isset($mode)) ) {
 		print "</table>";
 	} else {
 		print "</table>";
-		print "<table cellpadding=2 cellspacing=0 width=100%><tr><td align=left><b>$MRTGMsg[6]:</b> [$ps - $pe] $MRTGMsg[7] $rows</td><td align=right><b>$MRTGMsg[8]: </b>";
+		print "<table cellpadding=2 cellspacing=0 width='100%'><tr><td align=left><b>$MRTGMsg[6]:</b> [$ps - $pe] $MRTGMsg[7] $rows</td><td align=right><b>$MRTGMsg[8]: </b>";
 		$ip=$p-1;
 		$in=$p+1;
-		if ($p > 1) print " <a href='templates.php?templates=set&p=$ip'><<</a>";
+		if ($p > 1) print " <a href='templates.php?templates=set&amp;p=$ip'><<</a>";
 		for ($i=1; $i<=$pn; $i++) {
 			if ($i == $p) print "<b> [$i]</b>";
-			else print " <a href='templates.php?templates=set&p=$i'>[$i]</a>";
+			else print " <a href='templates.php?templates=set&amp;p=$i'>[$i]</a>";
 		}
-		if ($p < $pn) print " <a href='templates.php?templates=set&p=$in'>>></a>";
+		if ($p < $pn) print " <a href='templates.php?templates=set&amp;p=$in'>>></a>";
 		print "</td></tr></table>";
 	}
 
 	print "<br><div align=center><table cellpadding=0 cellspacing=5><tr align=center>";
-	print "<td><form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=templates value='set'><input type=submit value=\"$MRTGMsg[74]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:130px\"></form></td>";
-	print "<td><form method=post ACTION='templates-gui.php'><input type=submit value=\"$MRTGMsg[121]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:250px\"></form></td>";
-	print "<td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form></td></tr></table>";
+	print "<td><form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=templates value='set'><input type=submit class='submit_main_button' style='width:140px' value='$MRTGMsg[74]'></form></td>";
+	print "<td><form method=post ACTION='templates-gui.php'><input type=submit class='submit_main_button' style='width:220px' value='$MRTGMsg[121]'></form></td>";
+	print "<td><form method=post ACTION='index.php'><input type=submit class='submit_main_button' style='width:100px' value='$MRTGMsg[24]'></form></td></tr></table>";
 
 } elseif ( isset($mode) && $mode == "edit" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[13] SID <font color='#0000FF'>$sid</font></b></td></tr></table>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[13] SID <font color='#0000FF'>$sid</font></b></td></tr></table>";
 
 	if (isset($sid) && !(isset($save)) ) {
 
 		$id = $agent_id = $group_id = $row_set = $column_set = "";
 
 		// Показываем описание
-		print "<br><table width=100% cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td><b>$MRTGMsg[67]</b></td><td><b>$MRTGMsg[1]</b></td><td><b>$MRTGMsg[2]</b></td><td><b>$MRTGMsg[3]</b></td><td><b>$MRTGMsg[4]</b></td></tr>";
+		print "<br><table width='100%' cellpadding=1 cellspacing=1 bgcolor='#808080'><tr bgcolor='#AABBCC' align=center><td><b>$MRTGMsg[67]</b></td><td><b>$MRTGMsg[1]</b></td><td><b>$MRTGMsg[2]</b></td><td><b>$MRTGMsg[3]</b></td><td><b>$MRTGMsg[4]</b></td></tr>";
 		if($SQL_Type == "mysql") {
 			$result = mysql_query("select agent.id,agent_ip.ip,agent.title,agent.ver_snmp,agent_ip.community from agent, agent_ip where agent.ip=agent_ip.id and agent.id=".$hid);
 			$row = mysql_fetch_row($result);
@@ -136,7 +136,7 @@ if ( isset($templates) && !(isset($mode)) ) {
 			$row = pg_fetch_row($result);
 		}
 
-		print "<br><table width=100% align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
+		print "<br><table width='100%' align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
 		print "<tr bgcolor='#AABBCC' align=center><td width=20%><b>$MRTGMsg[41]</b></td><td><b>$MRTGMsg[42]</b></td></tr>";
 		print "<tr align=center bgcolor='#F0F0F0'><td width=20%><b>".$MRTGMsg[58]."</b></td><td><input type=hidden name='sid' value='$row[0]'></input><font color='#0000FF'><b>$row[0]</b></font></td></tr>";
 
@@ -166,23 +166,23 @@ if ( isset($templates) && !(isset($mode)) ) {
 		}
 		// Конец
 
-		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[61]."</td><td><input type='text' name='row_set' style='color:black;border:1x solid black;background-color:#FFFFFF;font-size:12px;width: 90%' value='$row[3]'></input></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[62]."</td><td><input type='text' name='column_set' style='color:black;border:1x solid black;background-color:#FFFFFF;font-size:12px;width: 90%' value='$row[4]'></input></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=p value='$p'><input type=hidden name=mode value='edit'><input type=hidden name=save value='set'><input type='submit' name='submit' style='color:blue;border:1x solid red;background-color:#EDEEEE;font-size:12px;width: 100px' value='$MRTGMsg[43]'></input></td></tr></form></table>";
+		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[61]."</td><td><input type='text' name='row_set' value='$row[3]'></input></td></tr>";
+		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[62]."</td><td><input type='text' name='column_set' value='$row[4]'></input></td></tr>";
+		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=p value='$p'><input type=hidden name=mode value='edit'><input type=hidden name=save value='set'><input type='submit' name='submit' class='submit_button' value='$MRTGMsg[43]'></input></td></tr></form></table>";
 
 	} elseif ( isset($save) ) {
 		if ( $agent_id == '' || $group_id == '' || $row_set == '' || $column_set == '') {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[52]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='edit'><input type=hidden name=hid value='$agent_id'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[76]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='edit'><input type=hidden name=hid value='$agent_id'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:170px' value='$MRTGMsg[76]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} elseif ( $column_set > 2 ) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[98] <font color='#0000FF'>2</font> $MRTGMsg[217]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[74]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:170px' value='$MRTGMsg[74]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -190,15 +190,15 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ($result) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[47] <font color='#0000FF'>$sid</font> $MRTGMsg[48]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit value=\"$MRTGMsg[53]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[53]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} else {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[49] <font color='#0000FF'>$sid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='edit'><input type=hidden name=hid value='$agent_id'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[76]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='edit'><input type=hidden name=hid value='$agent_id'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:170px' value='$MRTGMsg[76]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -206,8 +206,8 @@ if ( isset($templates) && !(isset($mode)) ) {
 
 } elseif ( isset($mode) && $mode == "add" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[78]</b></td></tr></table>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[78]</b></td></tr></table>";
 
 	if ( !(isset($save)) ) {
 
@@ -252,7 +252,7 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ($sids == 0) $sid = $rows;
 		// Конец
 
-		print "<br><table width=100% align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
+		print "<br><table width='100%' align=center cellpadding=2 cellspacing=1 bgcolor='#808080'><form methode='post' action='$self'>";
 		print "<tr align=center bgcolor='#F0F0F0'><td width=20%><b>".$MRTGMsg[58]."</b></td><td><input type=hidden name='sid' value='$sid'></input><font color='#0000FF'><b>$sid</b></font></td></tr>";
 
 		// Показываем список хостов
@@ -278,24 +278,24 @@ if ( isset($templates) && !(isset($mode)) ) {
 		print "</SELECT></td></tr>";
 		// Конец
 
-		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[61]."</td><td><input type='text' name='row_set' style='color:black;border:1x solid black;background-color:#FFFFFF;font-size:12px;width: 90%' value='$row_set'></input></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[62]."</td><td><input type='text' name='column_set' style='color:black;border:1x solid black;background-color:#FFFFFF;font-size:12px;width: 90%' value='$column_set'></input></td></tr>";
-		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=p value='$p'><input type=hidden name=mode value='add'><input type=hidden name=save value='set'><input type='submit' name='submit' style='color:blue;border:1x solid red;background-color:#EDEEEE;font-size:12px;width: 100px' value='$MRTGMsg[43]'></input></td></tr></form></table>";
+		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[61]."</td><td><input type='text' name='row_set' value='$row_set'></input></td></tr>";
+		print "<tr align=center bgcolor='#F0F0F0'><td class=blue>".$MRTGMsg[62]."</td><td><input type='text' name='column_set' value='$column_set'></input></td></tr>";
+		print "<tr align=center bgcolor='#F0F0F0'><td colspan=2><input type=hidden name=p value='$p'><input type=hidden name=mode value='add'><input type=hidden name=save value='set'><input type='submit' name='submit' class='submit_button' style='width:100px' value='$MRTGMsg[43]'></input></td></tr></form></table>";
 
 	} else {
 
 		if ( $agent_id == '' || $group_id == '' || $row_set == '' || $column_set == '') {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[52]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[74]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:170px' value='$MRTGMsg[74]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} elseif ( $column_set > 2 ) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[98] <font color='#0000FF'>2</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[74]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:170px' value='$MRTGMsg[74]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -307,15 +307,15 @@ if ( isset($templates) && !(isset($mode)) ) {
 			if($result) {
 				print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[47] <font color='#0000FF'>$sid</font> $MRTGMsg[51]</b><br><br>";
 				print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-				print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit value=\"$MRTGMsg[53]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-				print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+				print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[53]'></form>";
+				print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 				print "</td></tr></table></td></tr></table></div>";
 				exit;
 			} else {
 				print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[50] <font color='#0000FF'>$sid</font></b><br><br>";
 				print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-				print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=submit value=\"$MRTGMsg[74]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:130px\"></form>";
-				print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+				print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='add'><input type=submit class='submit_button' style='width:130px' value='$MRTGMsg[74]'></form>";
+				print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 				print "</td></tr></table></td></tr></table></div>";
 				exit;
 			}
@@ -328,23 +328,23 @@ if ( isset($templates) && !(isset($mode)) ) {
 
 } elseif ( isset($mode) && $mode == "delete" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
 	print "<tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[25]</b></td></tr></table><br>";
 
 	if ( isset($mode) && $gid == 0 && $SET_Access_Default_Group_Delete == "0") {
 		print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[77]</b><br><br>";
 		print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-		print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit value=\"$MRTGMsg[53]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-		print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+		print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[53]'></form>";
+		print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 		print "</td></tr></table></td></tr></table></div>";
 		exit;
 	}
 
 	if ( isset($mode) && !(isset($confirm_delete)) ) {
-		print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[26] <font color='#0000FF'>$sid</font> ???</b><br><br>";
+		print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[26] <font color='#0000FF'>$sid</font>?</b><br><br>";
 		print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-		print "<form method=post ACTION=$self><input type=hidden name=p value='$p'><input type=hidden name=mode value='delete'><input type=hidden name=sid value=$sid><input type=hidden name=gid value=$gid><input type=hidden name=confirm_delete value='set'><input type=submit value=\"$MRTGMsg[21]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:70px\"></form>";
-		print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[22]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:70px\"></form>";
+		print "<form method=post ACTION=$self><input type=hidden name=p value='$p'><input type=hidden name=mode value='delete'><input type=hidden name=sid value=$sid><input type=hidden name=gid value=$gid><input type=hidden name=confirm_delete value='set'><input type=submit class='submit_button' style='width:70px' value='$MRTGMsg[21]'></form>";
+		print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:70px' value='$MRTGMsg[22]'></form>";
 		print "</td></tr></table></td></tr></table></div>";
 	} elseif ( isset($mode) && isset($confirm_delete) ) {
 		$records = array("id" => $sid);
@@ -353,14 +353,14 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ($result) {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[28] <font color='#0000FF'>$sid</font> $MRTGMsg[29]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit value=\"$MRTGMsg[53]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[53]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		} else {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[30] <font color='#0000FF'>$sid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit value=\"$MRTGMsg[53]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[53]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		}
 
@@ -368,7 +368,7 @@ if ( isset($templates) && !(isset($mode)) ) {
 
 } elseif ( isset($mode) && $mode == "hide" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
 	print "<tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[85]</b></td></tr></table><br>";
 
 	if ($hide_sid == '') {
@@ -383,14 +383,14 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ( $row[0] == 0 ) {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[86]<br>$MRTGMsg[87] <font color='#0000FF'>$sid</font> $MRTGMsg[89]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='hide'><input type=hidden name=hide_sid value='1'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[91]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[92]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='hide'><input type=hidden name=hide_sid value='1'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[91]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_main_button' style='width:100px' value='$MRTGMsg[92]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		} else {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[86]<br>$MRTGMsg[87] <font color='#0000FF'>$sid</font> $MRTGMsg[88]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='hide'><input type=hidden name=hide_sid value='0'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[90]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[92]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='hide'><input type=hidden name=hide_sid value='0'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[90]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[92]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		}
 
@@ -399,15 +399,15 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ($result) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[47] <font color='#0000FF'>$sid</font> $MRTGMsg[48]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit value=\"$MRTGMsg[53]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:200px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=templates value='set'><input type=submit class='submit_button' style='width:200px' value='$MRTGMsg[53]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} else {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[49] <font color='#0000FF'>$sid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='edit'><input type=hidden name=hid value='$agent_id'><input type=hidden name=sid value='$sid'><input type=submit value=\"$MRTGMsg[76]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:170px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=mode value='edit'><input type=hidden name=hid value='$agent_id'><input type=hidden name=sid value='$sid'><input type=submit class='submit_button' style='width:170px' value='$MRTGMsg[76]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
@@ -415,8 +415,8 @@ if ( isset($templates) && !(isset($mode)) ) {
 
 } elseif ( isset($mode) && $mode == "change" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
-	print "<tr bgcolor='#F0F0F0'><td align=center width=100% class=red><b>$MRTGMsg[121]</b></td></tr></table><br>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<tr bgcolor='#F0F0F0'><td align=center width='100%' class=red><b>$MRTGMsg[121]</b></td></tr></table><br>";
 
 	//$result = pg_query($db, "select templates.id, templates.agent_id, templates.group_id, mrtg_group.title, templates.row_set, templates.column_set, templates.hide_set from mrtg_group,templates,agent where mrtg_group.id=templates.group_id and templates.agent_id=agent.id and templates.id=$sid order by templates.id asc");
 	if($SQL_Type == "mysql") {
@@ -435,30 +435,30 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ($result) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[47] <font color='#0000FF'>$sid</font> $MRTGMsg[48]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates-gui.php'><input type=submit value=\"$MRTGMsg[121]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:250px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates-gui.php'><input type=submit class='submit_button' style='width:250px' value='$MRTGMsg[121]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} else {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[49] <font color='#0000FF'>$sid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates-gui.php'><input type=submit value=\"$MRTGMsg[121]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:250px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates-gui.php'><input type=submit class='submit_button' style='width:250px' value='$MRTGMsg[121]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}
 	} else {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[49] <font color='#0000FF'>$sid</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates-gui.php'><input type=submit value=\"$MRTGMsg[121]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:250px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates-gui.php'><input type=submit class='submit_button' style='width:250px' value='$MRTGMsg[121]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 	}
 
 } elseif ( isset($mode) && $mode == "errors" ) {
 
-	print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+	print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
 	print "<tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[171]</b></td></tr></table><br>";
 
 	if ($err_set == '') {
@@ -473,14 +473,14 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ( $row[0] == 0 ) {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[86]<br>$MRTGMsg[172] <font color='#0000FF'>$id</font> $MRTGMsg[173]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='errors'><input type=hidden name=err_set value='1'><input type=hidden name=id value='$id'><input type=submit value=\"$MRTGMsg[175]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[92]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='errors'><input type=hidden name=err_set value='1'><input type=hidden name=id value='$id'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[175]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[92]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		} else {
 			print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[86]<br>$MRTGMsg[172] <font color='#0000FF'>$id</font> $MRTGMsg[174]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='errors'><input type=hidden name=err_set value='0'><input type=hidden name=id value='$id'><input type=submit value=\"$MRTGMsg[176]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
-			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[92]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<form method=post ACTION='templates.php'><input type=hidden name=p value='$p'><input type=hidden name=mode value='errors'><input type=hidden name=err_set value='0'><input type=hidden name=id value='$id'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[176]'></form>";
+			print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[92]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 		}
 
@@ -489,13 +489,13 @@ if ( isset($templates) && !(isset($mode)) ) {
 		if ($result) {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[47] <font color='#0000FF'>$id</font> $MRTGMsg[48]</b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		} else {
 			print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[49] <font color='#0000FF'>$id</font></b><br><br>";
 			print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-			print "<td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+			print "<td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' style='width:100px' value='$MRTGMsg[24]'></form>";
 			print "</td></tr></table></td></tr></table></div>";
 			exit;
 		}

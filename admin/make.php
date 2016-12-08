@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('IN_ADMIN', true);
 
@@ -15,32 +15,30 @@ require "./../lang/$MRTGLang.php";
 if (Check_Access() != "Allow") MRTGErrors(6);
 
 if($SQL_Type == "mysql") {
-	$db = mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
-	$sdb = mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
+	$db = @mysql_connect($SQL_Host, $SQL_User, $SQL_Passwd) or MRTGErrors(3);
+	$sdb = @mysql_select_db($SQL_Base, $db) or MRTGErrors(3);
 } else $db = @pg_connect('host='.$SQL_Host.' port='.$SQL_Port.' dbname='.$SQL_Base.' user='.$SQL_User.' password='.$SQL_Passwd.'') or MRTGErrors(3);
 
 HTMLTopPrint($MRTGMsg[18]);
 
-$id = $real_ip = $title = $ver_snmp = $community = $filename = $target = $interface_ip = $interface_name = $maxbytes = $system = $iftype = $ifname = $ip = $absmax = $withpeak = $options = $colours = $ylegend = $shortlegend = $legend1 = $legend2 = $legend3 = $legend4 = $legendi = $legendo = $kmg = "";
-
-print "<table cellpadding=4 cellspacing=1 width=100% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
+print "<table cellpadding=4 cellspacing=1 width='100%' bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[222]</b></td></tr>";
 print "<tr bgcolor='#F0F0F0' align=center><td class=red><b>$MRTGMsg[18]</b></td></tr></table><br>";
 
 if ( $p == '') $p = 1;
 
 if( $Deny_ReBuild_MRTG_File == "1" ) {
 	print "<br><div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[142]</b><br>";
-	print "<form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+	print "<form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 	print "</td></tr></table></div>";
-    HTMLBottomPrint();
+	HTMLBottomPrint();
 	exit;
 }
 
 if (isset($make) && !(isset($rebuild))) {
 	print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[20]</b><br><br>";
 	print "<table cellpadding=2 cellspacing=2><tr align=center><td>";
-	print "<form method=post ACTION='make.php'><input type=hidden name=p value='$p'><input type=hidden name=make value='set'><input type=hidden name=rebuild value='set'><input type=submit value=\"$MRTGMsg[21]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:70px\"></form>";
-	print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[22]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:70px\"></form>";
+	print "<form method=post ACTION='make.php'><input type=hidden name=p value='$p'><input type=hidden name=make value='set'><input type=hidden name=rebuild value='set'><input type=submit class='submit_button' value='$MRTGMsg[21]'></form>";
+	print "</td><td><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' value='$MRTGMsg[22]'></form>";
 	print "</td></tr></table></td></tr></table></div>";
 } 
 
@@ -56,7 +54,7 @@ if (isset($make) && isset($rebuild) && $rebuild != '') {
 
 	if ($rows == 0) {
 		print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[33]</b><br>";
-		print "<form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+		print "<br><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 		print "</td></tr></table></div>";
 		exit;
 	}
@@ -108,136 +106,78 @@ if (isset($make) && isset($rebuild) && $rebuild != '') {
 	}
 
 	if($SQL_Type == "mysql") {
-		$result = mysql_query("select distinct agent.id, agent_ip.ip, agent.title, agent.ver_snmp, agent_ip.community, agent.errors, mrtg.filename, mrtg.target, mrtg.interface_ip, mrtg.interface_name, mrtg.maxbytes, mrtg.iftype, mrtg.title_ip, mrtg.absmax, mrtg.withpeak, mrtg.options, mrtg.colours, mrtg.ylegend, mrtg.shortlegend, mrtg.legend1, mrtg.legend2, mrtg.legend3, mrtg.legend4, mrtg.legendi, mrtg.legendo, mrtg.routeruptime, mrtg.kmg, mrtg.unscaled 
-						from agent, agent_ip, mrtg
-						where agent.id=mrtg.id and agent.ip=agent_ip.id and agent.trash=0
-						order by id asc");
+		$result = mysql_query("select distinct agent.id, agent_ip.ip, agent.title, agent.ver_snmp, agent_ip.community, mrtg.target,mrtg.filename,mrtg.maxbytes,mrtg.routeruptime,mrtg.routername,mrtg.ipv4only,mrtg.absmax,mrtg.unscaled,mrtg.withpeak,mrtg.suppress,mrtg.xsize,mrtg.ysize,mrtg.xzoom,mrtg.yzoom,mrtg.xscale,mrtg.yscale,mrtg.ytics,mrtg.yticsfactor,mrtg.factor,mrtg.step,mrtg.options,mrtg.kmg,mrtg.colours,mrtg.ylegend,mrtg.shortlegend,mrtg.legend1,mrtg.legend2,mrtg.legend3,mrtg.legend4,mrtg.legendi,mrtg.legendo,mrtg.timezone,mrtg.weekformat,mrtg.rrdrowcount,mrtg.timestrpos,mrtg.timestrfmt,mrtg.kilo,mrtg.rrdrowcount30m,mrtg.rrdrowcount2h,mrtg.rrdrowcount1d,mrtg.rrdhwrras,mrtg.sfilename,mrtg.setenv,mrtg.pagetop
+					from agent,agent_ip,mrtg
+					where agent.id=mrtg.id and agent.ip=agent_ip.id and agent.trash=0
+					order by id asc");
 		$rows = mysql_num_rows($result);
 	} else {
-		$result = pg_query($db, "select distinct agent.id, agent_ip.ip, agent.title, agent.ver_snmp, agent_ip.community, agent.errors, mrtg.filename, mrtg.target, mrtg.interface_ip, mrtg.interface_name, mrtg.maxbytes, mrtg.iftype, mrtg.title_ip, mrtg.absmax, mrtg.withpeak, mrtg.options, mrtg.colours, mrtg.ylegend, mrtg.shortlegend, mrtg.legend1, mrtg.legend2, mrtg.legend3, mrtg.legend4, mrtg.legendi, mrtg.legendo, mrtg.routeruptime, mrtg.kmg, mrtg.unscaled 
-						from agent, agent_ip, mrtg
-						where agent.id=mrtg.id and agent.ip=agent_ip.id and agent.trash=0
-						order by id asc");
+		$result = pg_query($db, "select distinct agent.id, agent_ip.ip, agent.title, agent.ver_snmp, agent_ip.community, mrtg.target,mrtg.filename,mrtg.maxbytes,mrtg.routeruptime,mrtg.routername,mrtg.ipv4only,mrtg.absmax,mrtg.unscaled,mrtg.withpeak,mrtg.suppress,mrtg.xsize,mrtg.ysize,mrtg.xzoom,mrtg.yzoom,mrtg.xscale,mrtg.yscale,mrtg.ytics,mrtg.yticsfactor,mrtg.factor,mrtg.step,mrtg.options,mrtg.kmg,mrtg.colours,mrtg.ylegend,mrtg.shortlegend,mrtg.legend1,mrtg.legend2,mrtg.legend3,mrtg.legend4,mrtg.legendi,mrtg.legendo,mrtg.timezone,mrtg.weekformat,mrtg.rrdrowcount,mrtg.timestrpos,mrtg.timestrfmt,mrtg.kilo,mrtg.rrdrowcount30m,mrtg.rrdrowcount2h,mrtg.rrdrowcount1d,mrtg.rrdhwrras,mrtg.sfilename,mrtg.setenv,mrtg.pagetop
+					from agent,agent_ip,mrtg
+					where agent.id=mrtg.id and agent.ip=agent_ip.id and agent.trash=0
+					order by id asc");
 		$rows = pg_num_rows($result);
 	}
 
-	for ($i=0; $i<$rows; $i++) {
+	$MRTG_Settings = array('Target','MaxBytes','RouterUptime','RouterName','IPv4Only','AbsMax','Unscaled','WithPeak','Suppress','XSize','YSize','XZoom','YZoom','XScale','YScale','YTics','YTicsFactor','Factor','Step','Options','kMG','Colours','YLegend','ShortLegend','Legend1','Legend2','Legend3','Legend4','LegendI','LegendO','Timezone','Weekformat','RRDRowCount','TimeStrPos','TimeStrFmt','kilo','RRDRowCount30m','RRDRowCount2h','RRDRowCount1d','RRDHWRRAs','STarget','SetEnv','PageTop');
 
-		$id = $real_ip = $title = $ver_snmp = $community = $filename = $target = $interface_ip = $interface_name = $maxbytes = $system = $iftype = $ifname = $ip = $absmax = $withpeak = $options = $colours = $ylegend = $shortlegend = $legend1 = $legend2 = $legend3 = $legend4 = $legendi = $legendo = "";
+	for ($i=0; $i<$rows; $i++ ) {
 		$row = ($SQL_Type == "mysql") ? mysql_fetch_row($result) : pg_fetch_row($result, $i);
-		$id = $row[0];
-		$real_ip = $row[1];
-		$title = $row[2];
-		$ver_snmp = $row[3];
-		$community = $row[4];
-		$errors = $row[5];
-		$filename = $row[6];
-		$target = $row[7];
-		$interface_ip = $row[8];
-		$ifname = $interface_name = $row[9];
-		$maxbytes = $maxbytes1 = $maxbytes_err = $row[10];
-		$iftype = $row[11];
-		$ip = $row[12];
-		$absmax = $row[13];
-		$withpeak = $row[14];
-		$options = $row[15];
-		$colours = $row[16];
-		$ylegend = $row[17];
-		$shortlegend = $row[18];
-		$legend1 = $row[19];
-		$legend2 = $row[20];
-		$legend3 = $row[21];
-		$legend4 = $row[22];
-		$legendi = $row[23];
-		$legendo = $row[24];
-		$routeruptime = $row[25];
-		$kmg = $row[26];
-		$unscaled = $row[27];
-		$real_ip = split("/", $real_ip);
-		$real_ip = $real_ip[0];
-		$system = $real_ip;
-
-		//--------------- MRTG v2 -------------------------------------------------------------------------------------
-		if ($ver_snmp == "2") fputs ($total, "Target[".$filename."]: ".$target.":".$community."@".$real_ip.":::::2\n");
-		else fputs ($total, "Target[".$filename."]: ".$target.":".$community."@".$real_ip."\n");
-		if ($routeruptime == "1") fputs ($total, "RouterUptime[".$filename."]: ".$community."@".$real_ip."\n");
-		fputs ($total, "Title[".$filename."]: ".$title."\n");
-		if($interface_ip != "" || $interface_name != "") fputs ($total, "SetEnv[".$filename."]: MRTG_INT_IP=\"".$interface_ip."\" MRTG_INT_DESCR=\"".$interface_name."\"\n");
-		if($maxbytes != "") fputs ($total, "MaxBytes[".$filename."]: ".$maxbytes."\n");
-		if($kmg != "") fputs ($total, "kMG[".$filename."]: ".$kmg."\n");
-		if($unscaled != "") fputs ($total, "Unscaled[".$filename."]: ".$unscaled."\n");
-		if($options != "") fputs ($total, "Options[".$filename."]: ".$options."\n");
-		if($ylegend != "") fputs ($total, "YLegend[".$filename."]: ".$ylegend."\n");
-		if($shortlegend != "") fputs ($total, "ShortLegend[".$filename."]: ".$shortlegend."\n");
-		if($colours != "") fputs ($total, "Colours[".$filename."]: ".$colours."\n");
-		if($withpeak != "") fputs ($total, "WithPeak[".$filename."]: ".$withpeak."\n");
-		if($legend1 != "") fputs ($total, "Legend1[".$filename."]: ".$legend1."\n");
-		if($legend2 != "") fputs ($total, "Legend2[".$filename."]: ".$legend2."\n");
-		if($legend3 != "") fputs ($total, "Legend3[".$filename."]: ".$legend3."\n");
-		if($legend4 != "") fputs ($total, "Legend4[".$filename."]: ".$legend4."\n");
-		if($legendi != "") fputs ($total, "LegendI[".$filename."]: ".$legendi."\n");
-		if($legendo != "") fputs ($total, "LegendO[".$filename."]: ".$legendo."\n");
-		if($absmax != "") fputs ($total, "AbsMax[".$filename."]: ".$absmax."\n");
-		fputs ($total, "PageTop[".$filename."]: <H1>".$title."</H1>\n");
-		if( !ereg("noinfo", $options) ) {
-			fputs ($total, " <TABLE>\n");
-			fputs ($total, "   <TR><TD>System:</TD><TD>".$system."</TD></TR>\n");
-			fputs ($total, "   <TR><TD>Description:</TD><TD>".$title."</TD></TR>\n");
-			if( $iftype != "" ) fputs ($total, "   <TR><TD>ifType:</TD><TD>".$iftype."</TD></TR>\n");
-			if( $ifname != "" ) fputs ($total, "   <TR><TD>ifName:</TD><TD>".$ifname."</TD></TR>\n");
-			if($absmax != "") $maxbytes = $absmax;
-			if ($maxbytes < 1024) $maxbytes = $maxbytes." Bytes/s";
-			elseif ($maxbytes >= 1024 && $maxbytes < 1048576) $maxbytes = number_format($maxbytes/1024, 2)." KBytes/s";
-			else $maxbytes = number_format($maxbytes/1048576, 2)." MBytes/s";
-			fputs ($total, "   <TR><TD>Max Speed:</TD><TD>".$maxbytes."</TD></TR>\n");
-			if($ip != "") fputs ($total, "   <TR><TD>IP:</TD><TD>".$ip."</TD></TR>\n");
-			fputs ($total, " </TABLE>\n");
+		$ip = split("/", $row[1]);
+		$row[1] = $ip[0];
+		if($row[3] == "0") $full_target = $row[46];
+		else if($row[3] == "1") $full_target = $row[5].":".$row[4]."@".$row[1];
+		else $full_target = $row[5].":".$row[4]."@".$row[1].":::::2";
+		fputs ($total, "Title[".$row[6]."]: ".$row[2]."\n");
+		for ($z=6; $z<count($row); $z++ ) {
+			if ( $row[$z] != '' ) {
+				if($MRTG_Settings[$z-6] == "STarget") echo '';
+				else if($MRTG_Settings[$z-6] == "Target") fputs ($total, $MRTG_Settings[$z-6]."[".$row[6]."]: ".$full_target."\n");
+				else if($MRTG_Settings[$z-6] == "RouterUptime" && $row[$z] == "1") fputs ($total, "RouterUptime[".$row[6]."]: ".$row[4]."@".$row[1]."\n");
+				else fputs ($total, $MRTG_Settings[$z-6]."[".$row[6]."]: ".$row[$z]."\n");
+			}
 		}
 		fputs ($total, "\n");
-		//--------------- MRTG v2 Конец----------------------------------------------------------------------------------
+	}
 
-		//--------------- MRTG v2 Err -------------------------------------------------------------------------------------
-		if( file_exists($MRTG_Config_Err)  && $errors == "1" ) {
-			fputs ($total_err, "Target[".$filename."]: .1.3.6.1.2.1.2.2.1.14.".$target."&.1.3.6.1.2.1.2.2.1.20.".$target.":".$community."@".$real_ip."\n");
-			fputs ($total_err, "Title[".$filename."]: ".$title."\n");
-			if($interface_ip != "" || $interface_name != "" ) fputs ($total_err, "SetEnv[".$filename."]: MRTG_INT_IP=\"".$interface_ip."\" MRTG_INT_DESCR=\"".$interface_name."\"\n");
-			if($maxbytes != "" ) fputs ($total_err, "MaxBytes[".$filename."]: ".$maxbytes_err."\n");
-			if($kmg != "" ) fputs ($total_err, "kMG[".$filename."]: ".$kmg."\n");
-			if($unscaled != "") fputs ($total_err, "Unscaled[".$filename."]: ".$unscaled."\n");
-			if($options != "") fputs ($total_err, "Options[".$filename."]: ".$options."\n");
-			if($ylegend != '') fputs ($total_err, "YLegend[".$filename."]: ".$ylegend."\n");
-			if($shortlegend != "") fputs ($total_err, "ShortLegend[".$filename."]: ".$shortlegend."\n");
-			if($colours != "") fputs ($total_err, "Colours[".$filename."]: ".$colours."\n");
-			if($withpeak != "") fputs ($total_err, "WithPeak[".$filename."]: ".$withpeak."\n");
-			if($legend1 != "") fputs ($total_err, "Legend1[".$filename."]: ".$legend1."\n");
-			if($legend2 != "") fputs ($total_err, "Legend2[".$filename."]: ".$legend2."\n");
-			if($legend3 != "") fputs ($total_err, "Legend3[".$filename."]: ".$legend3."\n");
-			if($legend4 != "") fputs ($total_err, "Legend4[".$filename."]: ".$legend4."\n");
-			if($legendi != "") fputs ($total_err, "LegendI[".$filename."]: ".$legendi."\n");
-			if($legendo != "") fputs ($total_err, "LegendO[".$filename."]: ".$legendo."\n");
-			if($absmax != "") fputs ($total_err, "AbsMax[".$filename."]: ".$absmax."\n");
-			fputs ($total_err, "PageTop[".$filename."]: <H1>".$title."</H1>\n");
-			if( !ereg("noinfo", $options) ) {
-				fputs ($total_err, " <TABLE>\n");
-				fputs ($total_err, "   <TR><TD>System:</TD><TD>".$system."</TD></TR>\n");
-				fputs ($total_err, "   <TR><TD>Description:</TD><TD>".$title."</TD></TR>\n");
-				if( $iftype != "" ) fputs ($total_err, "   <TR><TD>ifType:</TD><TD>".$iftype."</TD></TR>\n");
-				if( $ifname != "" ) fputs ($total_err, "   <TR><TD>ifName:</TD><TD>".$ifname."</TD></TR>\n");
-				if($absmax != "") $maxbytes_err = $absmax;
-				if ($maxbytes_err < 1024) $maxbytes_err = $maxbytes_err." Bytes/s";
-				elseif ($maxbytes_err >= 1024 && $maxbytes_err < 1048576) $maxbytes_err = number_format($maxbytes_err/1024, 2)." KBytes/s";
-				else $maxbytes_err = number_format($maxbytes_err/1048576, 2)." MBytes/s";
-				fputs ($total_err, "   <TR><TD>Max Speed:</TD><TD>".$maxbytes_err."</TD></TR>\n");
-				if($ip != "") fputs ($total_err, "   <TR><TD>IP:</TD><TD>".$ip."</TD></TR>\n");
-				fputs ($total_err, " </TABLE>\n");
+	if(file_exists($MRTG_Config_Err)) {
+		// Errors = 1
+		if($SQL_Type == "mysql") {
+			$result = mysql_query("select distinct agent.id, agent_ip.ip, agent.title, agent.ver_snmp, agent_ip.community, mrtg.target,mrtg.filename,mrtg.maxbytes,mrtg.routeruptime,mrtg.routername,mrtg.ipv4only,mrtg.absmax,mrtg.unscaled,mrtg.withpeak,mrtg.suppress,mrtg.xsize,mrtg.ysize,mrtg.xzoom,mrtg.yzoom,mrtg.xscale,mrtg.yscale,mrtg.ytics,mrtg.yticsfactor,mrtg.factor,mrtg.step,mrtg.options,mrtg.kmg,mrtg.colours,mrtg.ylegend,mrtg.shortlegend,mrtg.legend1,mrtg.legend2,mrtg.legend3,mrtg.legend4,mrtg.legendi,mrtg.legendo,mrtg.timezone,mrtg.weekformat,mrtg.rrdrowcount,mrtg.timestrpos,mrtg.timestrfmt,mrtg.kilo,mrtg.rrdrowcount30m,mrtg.rrdrowcount2h,mrtg.rrdrowcount1d,mrtg.rrdhwrras,mrtg.sfilename,mrtg.setenv,mrtg.pagetop
+						from agent,agent_ip,mrtg
+						where agent.id=mrtg.id and agent.ip=agent_ip.id and agent.trash=0 and agent.errors=1
+						order by id asc");
+			$rows = mysql_num_rows($result);
+		} else {
+			$result = pg_query($db, "select distinct agent.id, agent_ip.ip, agent.title, agent.ver_snmp, agent_ip.community, mrtg.target,mrtg.filename,mrtg.maxbytes,mrtg.routeruptime,mrtg.routername,mrtg.ipv4only,mrtg.absmax,mrtg.unscaled,mrtg.withpeak,mrtg.suppress,mrtg.xsize,mrtg.ysize,mrtg.xzoom,mrtg.yzoom,mrtg.xscale,mrtg.yscale,mrtg.ytics,mrtg.yticsfactor,mrtg.factor,mrtg.step,mrtg.options,mrtg.kmg,mrtg.colours,mrtg.ylegend,mrtg.shortlegend,mrtg.legend1,mrtg.legend2,mrtg.legend3,mrtg.legend4,mrtg.legendi,mrtg.legendo,mrtg.timezone,mrtg.weekformat,mrtg.rrdrowcount,mrtg.timestrpos,mrtg.timestrfmt,mrtg.kilo,mrtg.rrdrowcount30m,mrtg.rrdrowcount2h,mrtg.rrdrowcount1d,mrtg.rrdhwrras,mrtg.sfilename,mrtg.setenv,mrtg.pagetop
+						from agent,agent_ip,mrtg
+						where agent.id=mrtg.id and agent.ip=agent_ip.id and agent.trash=0 and agent.errors=1
+						order by id asc");
+			$rows = pg_num_rows($result);
+		}
+
+		for ($i=0; $i<$rows; $i++ ) {
+			$row = ($SQL_Type == "mysql") ? mysql_fetch_row($result) : pg_fetch_row($result, $i);
+			$ip = split("/", $row[1]);
+			$row[1] = $ip[0];
+			if($row[3] == "0") $full_target = $row[46];
+			else if($row[3] == "1") $full_target = ".1.3.6.1.2.1.2.2.1.14.".$row[5]."&.1.3.6.1.2.1.2.2.1.20.".$row[5].":".$row[4]."@".$row[1];
+			else $full_target = ".1.3.6.1.2.1.2.2.1.14.".$row[5]."&.1.3.6.1.2.1.2.2.1.20.".$row[5].":".$row[4]."@".$row[1].":::::2";
+			fputs ($total_err, "Title[".$row[6]."]: ".$row[2]."\n");
+			for ($z=6; $z<count($row); $z++ ) {
+				if ( $row[$z] != '' ) {
+					if($MRTG_Settings[$z-6] == "STarget") echo '';
+					else if($MRTG_Settings[$z-6] == "Target") fputs ($total_err, $MRTG_Settings[$z-6]."[".$row[6]."]: ".$full_target."\n");
+					else if($MRTG_Settings[$z-6] == "RouterUptime" && $row[$z] == "1") fputs ($total_err, "RouterUptime[".$row[6]."]: ".$row[4]."@".$row[1]."\n");
+					else fputs ($total_err, $MRTG_Settings[$z-6]."[".$row[6]."]: ".$row[$z]."\n");
+				}
 			}
 			fputs ($total_err, "\n");
 		}
-		//--------------- MRTG v2  Err Конец----------------------------------------------------------------------------------
 	}
 
 	print "<div align=center><table cellpadding=4 cellspacing=2 width=40% bgcolor='#808080'><tr bgcolor='#F0F0F0' align=center><td class=red><br><b>$MRTGMsg[23]</b><br>";
-	print "<form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit value=\"$MRTGMsg[24]\" style=\"color:#0000FF;border:1x solid red;background-color:#EDEEEE;font-size:13px;width:100px\"></form>";
+	print "<br><form method=post ACTION='index.php'><input type=hidden name=p value='$p'><input type=submit class='submit_button' value='$MRTGMsg[24]'></form>";
 	print "</td></tr></table></div>";
 
 	fclose($total);
