@@ -1,43 +1,17 @@
-BODY {
-	topMargin: 0;
-	leftMargin: 0;
-	marginWidth: 0;
-	marginHeight: 0;
-	SCROLLBAR-HIGHLIGHT-COLOR: #F0F0F0;
-	SCROLLBAR-ARROW-COLOR: #FF0000;
-	SCROLLBAR-BASE-COLOR: #C0C0C0
-}
-
-textarea {
-	color:#000000;
-	font: 11px Verdana, Helvetica, sans-serif
-}
-
 select {
 	color:#000000;
-	font: 11px Verdana, Helvetica, sans-serif
-}
-
-select .sred {
-	color:#c00000
-}
-
-select .sgray {
-	color:#808080
+	border:1px solid black;
+	background-color:#FFFFFF;
+	font-size:12px;
+	width: 90%;
 }
 
 input {
 	color:#000000;
-	font: 11px Verdana, Helvetica, sans-serif
-}
-
-.setup {
-    color:#000000;
-    border:solid black;
-    border-width: 1px;
-    background-color:#FFFFFF;
-    font-size:12px;
-    width:500px
+	border:1px solid black;
+	background-color:#FFFFFF;
+	font-size:12px;
+	width: 90%;
 }
 
 th {
@@ -51,21 +25,53 @@ td {
 }
 
 a:link, a:visited {
-	text-decoration:none;
+	text-decoration: none;
 	color:#0000FF;
-	font-famyly: Verdana, Helvetica, sans-serif
-	}
-
-a:hover {
-	text-decoration: underline;
-	color:#c00000;
-	font-famyly: Verdana, Helvetica, sans-serif
+	font: 11px Verdana, Helvetica, sans-serif
 }
 
-a:active {
+a:active, a:hover {
 	text-decoration: underline;
 	color:#c00000;
-	font-famyly: Verdana, Helvetica, sans-serif
+	font: 11px Verdana, Helvetica, sans-serif
+}
+
+.mrtgtextarea {
+	color:#000000;
+	font: 12px Verdana, Helvetica, sans-serif
+}
+
+.submit_button {
+	color:blue;
+	border:1px solid red;
+	background-color:#EDEEEE;
+	font-size:12px;
+	width: 100px
+}
+
+.submit_main_button {
+	color:blue;
+	border:1px solid red;
+	background-color:#EDEEEE;
+	font-size:13px;
+	width: 170px
+}
+
+.submit_yesno_button {
+	color:blue;
+	border:1px solid red;
+	background-color:#EDEEEE;
+	font-size:13px;
+	width: 70px
+}
+
+.setup {
+    color:#000000;
+    border:solid black;
+    border-width: 1px;
+    background-color:#FFFFFF;
+    font-size:12px;
+    width:500px
 }
 
 .blue {
@@ -77,29 +83,49 @@ a:active {
 }
 
 .red a:link, .red a:visited {
-	text-decoration:none;
+	text-decoration: none;
 	color:#c00000;
-	font-famyly: Verdana, Helvetica, sans-serif
+	font: 11px Verdana, Helvetica, sans-serif
 }
 
-.red a:hover {
-	text-decoration:underline;
+.red a:hover, .red a:active {
+	text-decoration: underline;
 	color:#0000FF;
-	font-famyly: Verdana, Helvetica, sans-serif
-}
-
-.red a:active {
-	text-decoration:underline;
-	color:#0000FF;
-	font-famyly: Verdana, Helvetica, sans-serif
+	font: 11px Verdana, Helvetica, sans-serif
 }
 
 .copyright {
-	font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif; color: #444444; letter-spacing: -1px;
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	color: #444444;
+	letter-spacing: -1px;
 }
-a.copyright {
-	color: #444444; text-decoration: none;
+
+a.copyright:link, a.copyright:visited {
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	color: #444444;
+	text-decoration: none;
 }
+
 a.copyright:hover {
-	color: #000000; text-decoration: underline;
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+	text-decoration: underline;
+}
+
+.update {
+	font: 12px Verdana, Arial, Helvetica, sans-serif;
+	color: #0000FF;
+	letter-spacing: -1px;
+}
+
+a.update:link, a.update:visited {
+	font: 12px Verdana, Arial, Helvetica, sans-serif;
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a.update:hover {
+	font: 12px Verdana, Arial, Helvetica, sans-serif;
+	color: #0000FF;
+	text-decoration: underline;
 }
