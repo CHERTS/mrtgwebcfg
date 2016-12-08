@@ -3,7 +3,7 @@ INSERT INTO config (config_name, config_value) VALUES ('default_style','1');
 INSERT INTO config (config_name, config_value) VALUES ('script_path','/mrtgwebcfg/');
 INSERT INTO config (config_name, config_value) VALUES ('sitename','MRTGWebCfg');
 INSERT INTO config (config_name, config_value) VALUES ('system_disable','0');
-INSERT INTO config (config_name, config_value) VALUES ('version','2.20');
+INSERT INTO config (config_name, config_value) VALUES ('version','2.21');
 INSERT INTO config (config_name, config_value) VALUES ('default_dateformat','D M d, Y g:i a');
 INSERT INTO config (config_name, config_value) VALUES ('timezone','0');
 
