@@ -1,6 +1,14 @@
 Upgrade guide for MRTGWebCfg
 ----------------------------
 
+How to upgrade 2.20 to 2.21:
+----------------------------
+
+Database upgrade scripts:
+
+  - MySQL - /sql/mysql-update-220-to-221.sql
+  - PostgreSQL - /sql/postgresql-update-220-to-221.sql
+
 How to upgrade 2.19 to 2.20:
 ----------------------------
 
